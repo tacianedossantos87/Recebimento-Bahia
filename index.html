@@ -20,26 +20,27 @@
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
+    // 5 UNIDADES EXCLUSIVAS (HUB = SIMÕES FILHO V084)
     const STORES = [
-      { id: 'HUB', label: 'HUB' },
-      { id: 'SIMOES_FILHO', label: 'ER SIMÕES FILHO' },
-      { id: 'PITUBA', label: 'ER PITUBA' },
-      { id: 'CAJAZEIRAS', label: 'ER CAJAZEIRAS' },
-      { id: 'CALCADA', label: 'ER CALÇADA' },
-      { id: 'LAURO_FREITAS', label: 'ER LAURO DE FREITAS' }
+      { id: 'SIMOES_FILHO', label: 'HUB - SIMÕES FILHO (V084)' },
+      { id: 'PITUBA', label: 'ER PITUBA (V078)' },
+      { id: 'CAJAZEIRAS', label: 'ER CAJAZEIRAS (V070)' },
+      { id: 'CALCADA', label: 'ER CALÇADA (V074)' },
+      { id: 'LAURO_FREITAS', label: 'ER LAURO DE FREITAS (V072)' }
     ];
 
+    // DADOS MAPEADOS COM STATUS REAIS DA PLANILHA
     const INITIAL_NOTES = [
-      { id: '000123456/1', fornecedor: 'Fornecedor ABC Distribuidora Ltda', cnpj: '02.096.748/0002-46', tipo: 'Entrada', status: 'Autorizada', integrado: true, valor: 15000.00, loja: 'PITUBA', data: '2026-06-15' },
-      { id: '000123457/1', fornecedor: 'Natura Cosméticos S/A', cnpj: '12.345.678/0001-90', tipo: 'Entrada', status: 'Autorizada', integrado: true, valor: 8450.50, loja: 'SIMOES_FILHO', data: '2026-06-16' },
-      { id: '000962296/1', fornecedor: 'Calamo Distribuidora de Produtos', cnpj: '06.147.451/0009-90', tipo: 'Entrada', status: 'Pendente', integrado: false, valor: 195.32, loja: 'SIMOES_FILHO', data: '2026-06-16' },
-      { id: '000970645/1', fornecedor: 'Calamo Distribuidora de Produtos', cnpj: '06.147.451/0009-90', tipo: 'Entrada', status: 'Pendente', integrado: false, valor: 9.44, loja: 'CALCADA', data: '2026-06-17' },
-      { id: '000271323/2', fornecedor: 'Antilhas Gráfica e Embalagens', cnpj: '02.096.748/0002-46', tipo: 'Entrada', status: 'Autorizada', integrado: true, valor: 1141.45, loja: 'CAJAZEIRAS', data: '2026-06-17' },
-      { id: '000332110/1', fornecedor: 'Boticário Logística Nordeste', cnpj: '11.137.051/0846-90', tipo: 'Entrada', status: 'Autorizada', integrado: true, valor: 24350.00, loja: 'LAURO_FREITAS', data: '2026-06-18' }
+      { id: '000848208/1', fornecedor: 'EUDORA', cnpj: '29250906147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 15000.00, loja: 'PITUBA', data: '2026-06-15' },
+      { id: '000962296/1', fornecedor: 'CALAMO DISTRIBUIDORA', cnpj: '29260606147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 195.32, loja: 'SIMOES_FILHO', data: '2026-06-16' },
+      { id: '000970645/1', fornecedor: 'CALAMO DISTRIBUIDORA', cnpj: '29260706147451', tipo: 'Entrada', status: 'PENDENTE INTEGRACAO', integrado: false, valor: 9.44, loja: 'SIMOES_FILHO', data: '2026-06-16' },
+      { id: '000271323/2', fornecedor: 'ANTILHAS GRAFICA', cnpj: '35260602096748', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 1141.45, loja: 'CAJAZEIRAS', data: '2026-06-17' },
+      { id: '000971157/1', fornecedor: 'CALAMO DISTRIBUIDORA', cnpj: '29260706147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 6781.07, loja: 'CALCADA', data: '2026-06-17' },
+      { id: '000332110/1', fornecedor: 'BOTICARIO LOGISTICA', cnpj: '11137051084690', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 24350.00, loja: 'LAURO_FREITAS', data: '2026-06-18' }
     ];
 
     function App() {
-      const [activeTab, setActiveTab] = useState('HUB');
+      const [activeTab, setActiveTab] = useState('SIMOES_FILHO');
       const [searchTerm, setSearchTerm] = useState('');
       const [statusFilter, setStatusFilter] = useState('Todos');
       const [startDate, setStartDate] = useState('2026-06-15');
@@ -49,15 +50,16 @@
       const [isAnalyzing, setIsAnalyzing] = useState(false);
       const [aiChatOpen, setAiChatOpen] = useState(false);
       const [chatMessages, setChatMessages] = useState([
-        { sender: 'gemini', text: 'Olá! Sou o Gemini, assistente corporativo Boticário. Como posso ajudar com o recebimento das notas nas lojas da Bahia?' }
+        { sender: 'gemini', text: 'Olá! Sou o Gemini, assistente corporativo Boticário. Como posso ajudar com os recebimentos da Bahia?' }
       ]);
       const [chatInput, setChatInput] = useState('');
 
       const chartRef = useRef(null);
       const chartInstance = useRef(null);
 
+      // FILTRAGEM DOS DADOS POR LOJA
       const filteredNotes = notes.filter(n => {
-        const matchTab = activeTab === 'HUB' ? true : n.loja === activeTab;
+        const matchTab = n.loja === activeTab;
         const matchSearch = n.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
                             n.fornecedor.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             n.cnpj.includes(searchTerm);
@@ -67,8 +69,8 @@
       });
 
       const totalNotas = filteredNotes.length;
-      const notasRecebidas = filteredNotes.filter(n => n.status === 'Autorizada').length;
-      const pendentesIntegracao = filteredNotes.filter(n => !n.integrado).length;
+      const notasRecebidas = filteredNotes.filter(n => n.status === 'DENTRO DO PRAZO').length;
+      const pendentesIntegracao = filteredNotes.filter(n => n.status === 'PENDENTE INTEGRACAO' || n.status === 'FORA DO PRAZO').length;
       const notasIntegradasCount = filteredNotes.filter(n => n.integrado).length;
 
       useEffect(() => {
@@ -88,7 +90,7 @@
             labels: labels,
             datasets: [
               { label: 'Notas Integradas', data: integradasData, backgroundColor: '#10b981', borderRadius: 6 },
-              { label: 'Pendentes de Integração', data: pendentesData, backgroundColor: '#ef4444', borderRadius: 6 }
+              { label: 'Pendentes / Fora do Prazo', data: pendentesData, backgroundColor: '#ef4444', borderRadius: 6 }
             ]
           },
           options: {
@@ -96,7 +98,7 @@
             maintainAspectRatio: false,
             plugins: {
               legend: { position: 'top' },
-              title: { display: true, text: 'Status de Integração de NFs por Unidade (Bahia)', font: { size: 14, weight: 'bold' } }
+              title: { display: true, text: 'Status de Integração por Unidade (Bahia)', font: { size: 14, weight: 'bold' } }
             },
             scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
           }
@@ -110,13 +112,13 @@
         setTimeout(() => {
           const newNote = {
             id: `000${Math.floor(100000 + Math.random() * 900000)}/1`,
-            fornecedor: 'Fornecedor Exemplo Bahia Ltda',
-            cnpj: '05.112.334/0001-88',
+            fornecedor: 'FORNECEDOR NOVO BAHIA',
+            cnpj: '05112334000188',
             tipo: 'Entrada',
-            status: 'Autorizada',
+            status: 'DENTRO DO PRAZO',
             integrado: true,
             valor: 12500.00,
-            loja: activeTab === 'HUB' ? 'SIMOES_FILHO' : activeTab,
+            loja: activeTab,
             data: new Date().toISOString().split('T')[0]
           };
           setNotes([newNote, ...notes]);
@@ -131,8 +133,21 @@
         setChatMessages(newMsgs);
         setChatInput('');
         setTimeout(() => {
-          setChatMessages([...newMsgs, { sender: 'gemini', text: `Analisando base de dados do Boticário... Encontrei ${totalNotas} notas cadastradas no período.` }]);
+          setChatMessages([...newMsgs, { sender: 'gemini', text: `Analisando dados do Boticário... Encontrei ${totalNotas} notas na aba selecionada.` }]);
         }, 1000);
+      };
+
+      const getStatusStyle = (status) => {
+        switch(status) {
+          case 'DENTRO DO PRAZO':
+            return 'bg-emerald-900 text-emerald-100 border-emerald-700';
+          case 'FORA DO PRAZO':
+            return 'bg-red-900 text-red-100 border-red-700';
+          case 'PENDENTE INTEGRACAO':
+            return 'bg-amber-100 text-amber-900 border-amber-300';
+          default:
+            return 'bg-slate-800 text-white';
+        }
       };
 
       return (
@@ -164,9 +179,10 @@
               </button>
             </div>
 
+            {/* ABAS UNIFICADAS DAS 5 UNIDADES BAHIA */}
             <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-200">
               {STORES.map((s) => {
-                const count = notes.filter(n => s.id === 'HUB' ? true : n.loja === s.id).length;
+                const count = notes.filter(n => n.loja === s.id).length;
                 const isActive = activeTab === s.id;
                 return (
                   <button key={s.id} onClick={() => setActiveTab(s.id)} className={`px-4 py-2 text-xs font-semibold rounded-t-lg flex items-center gap-2 border-b-2 whitespace-nowrap ${isActive ? 'border-slate-900 text-slate-900 bg-white shadow-sm' : 'border-transparent text-slate-500 hover:bg-slate-100'}`}>
@@ -177,17 +193,18 @@
               })}
             </div>
 
+            {/* CARDS DE MÉTRICAS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="bg-white p-4 rounded-xl border shadow-sm flex items-center justify-between">
                 <div><p className="text-[11px] font-bold uppercase text-slate-400">Total de Notas</p><p className="text-2xl font-extrabold text-slate-800 mt-1">{totalNotas}</p></div>
                 <div className="p-2.5 bg-slate-100 text-slate-600 rounded-lg"><i data-lucide="file-text" className="w-5 h-5"></i></div>
               </div>
               <div className="bg-white p-4 rounded-xl border shadow-sm flex items-center justify-between">
-                <div><p className="text-[11px] font-bold uppercase text-slate-400">Notas Recebidas</p><p className="text-2xl font-extrabold text-slate-800 mt-1">{notasRecebidas}</p></div>
+                <div><p className="text-[11px] font-bold uppercase text-slate-400">Dentro do Prazo</p><p className="text-2xl font-extrabold text-slate-800 mt-1">{notasRecebidas}</p></div>
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="check-circle-2" className="w-5 h-5"></i></div>
               </div>
               <div className="bg-white p-4 rounded-xl border shadow-sm flex items-center justify-between">
-                <div><p className="text-[11px] font-bold uppercase text-slate-400">Pendentes de Integração</p><p className="text-2xl font-extrabold text-slate-800 mt-1">{pendentesIntegracao}</p></div>
+                <div><p className="text-[11px] font-bold uppercase text-slate-400">Pendentes / Fora Prazo</p><p className="text-2xl font-extrabold text-slate-800 mt-1">{pendentesIntegracao}</p></div>
                 <div className="p-2.5 bg-red-50 text-red-500 rounded-lg"><i data-lucide="alert-circle" className="w-5 h-5"></i></div>
               </div>
               <div className="bg-white p-4 rounded-xl border shadow-sm flex items-center justify-between">
@@ -196,10 +213,12 @@
               </div>
             </div>
 
+            {/* GRÁFICO */}
             <div className="bg-white p-5 rounded-xl border shadow-sm">
               <div className="h-64 w-full"><canvas ref={chartRef}></canvas></div>
             </div>
 
+            {/* SEÇÃO DE FILTROS COM STATUS DA PLANILHA */}
             <div className="bg-white p-4 rounded-xl border shadow-sm space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
                 <div className="md:col-span-5 relative">
@@ -215,13 +234,15 @@
                 <div className="md:col-span-3">
                   <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="w-full py-2 px-3 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 bg-white">
                     <option value="Todos">Todos os status</option>
-                    <option value="Autorizada">Autorizada</option>
-                    <option value="Pendente">Pendente</option>
+                    <option value="DENTRO DO PRAZO">DENTRO DO PRAZO</option>
+                    <option value="FORA DO PRAZO">FORA DO PRAZO</option>
+                    <option value="PENDENTE INTEGRACAO">PENDENTE INTEGRACAO</option>
                   </select>
                 </div>
               </div>
             </div>
 
+            {/* TABELA COM COLUNA DE STATUS OFICIAL */}
             <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs text-slate-600">
@@ -233,7 +254,11 @@
                       <tr key={note.id} className="hover:bg-slate-50 transition">
                         <td className="p-4"><div className="font-bold text-slate-900">{note.id}</div><div className="text-[11px] text-slate-400">{note.fornecedor}</div></td>
                         <td className="p-4"><span className="bg-slate-100 px-2 py-0.5 rounded text-[11px] border">{note.tipo}</span></td>
-                        <td className="p-4"><span className={`px-2.5 py-1 rounded text-[11px] font-semibold ${note.status === 'Autorizada' ? 'bg-slate-900 text-white' : 'bg-amber-100 text-amber-800'}`}>{note.status}</span></td>
+                        <td className="p-4">
+                          <span className={`px-2.5 py-1 rounded text-[10px] font-bold border inline-block ${getStatusStyle(note.status)}`}>
+                            {note.status}
+                          </span>
+                        </td>
                         <td className="p-4 font-medium text-slate-700">{note.data.split('-').reverse().join('/')}</td>
                         <td className="p-4 font-bold text-slate-900">R$ {note.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
                         <td className="p-4 text-center"><div className="flex justify-center gap-3 text-slate-400"><i data-lucide="eye" className="w-4 h-4 cursor-pointer hover:text-slate-800"></i><i data-lucide="pencil" className="w-4 h-4 cursor-pointer hover:text-slate-800"></i><i data-lucide="trash-2" className="w-4 h-4 cursor-pointer hover:text-red-500"></i></div></td>
@@ -245,6 +270,7 @@
             </div>
           </main>
 
+          {/* CHATBOT GEMINI */}
           <div className="fixed bottom-5 right-5 z-40">
             {aiChatOpen ? (
               <div className="bg-white rounded-2xl shadow-2xl border w-80 sm:w-96 flex flex-col h-96 overflow-hidden">
@@ -269,6 +295,7 @@
             )}
           </div>
 
+          {/* MODAL OCR */}
           {isModalOpen && (
             <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
               <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
@@ -295,7 +322,10 @@
   </script>
 </body>
 </html>
+   
+      
+       
+           
+       
 
-
-
-  
+        
