@@ -28,15 +28,9 @@
       { id: 'LAURO_FREITAS', label: 'ER LAURO DE FREITAS (V072)' }
     ];
 
-    // BASE REAL EXTRAÍDA DA PLANILHA (JULHO E AGOSTO DE 2026)
+    // LANÇAMENTOS BASEADOS NA COLUNA DE EMISSÃO DA PLANILHA
     const INITIAL_NOTES = [
-      // SIMÕES FILHO (JULHO / AGOSTO 2026)
-      { id: '965292', fornecedor: 'BOTICÁRIO', cnpj: '29260706147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 1527.27, loja: 'SIMOES_FILHO', data: '2026-07-06' },
-      { id: '965293', fornecedor: 'BOTICÁRIO', cnpj: '29260706147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 12450.00, loja: 'SIMOES_FILHO', data: '2026-07-06' },
-      { id: '970645', fornecedor: 'CALAMO DISTRIBUIDORA', cnpj: '29260706147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 9.44, loja: 'SIMOES_FILHO', data: '2026-07-21' },
-      { id: '971157', fornecedor: 'CALAMO DISTRIBUIDORA', cnpj: '29260706147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 6781.07, loja: 'SIMOES_FILHO', data: '2026-07-24' },
-      { id: '973497', fornecedor: 'QDB', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 8088.46, loja: 'SIMOES_FILHO', data: '2026-08-01' },
-      { id: '975530', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 10499.67, loja: 'SIMOES_FILHO', data: '2026-08-07' },
+      // SIMÕES FILHO (V084)
       { id: '975531', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 175.31, loja: 'SIMOES_FILHO', data: '2026-08-07' },
       { id: '975532', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 18175.18, loja: 'SIMOES_FILHO', data: '2026-08-07' },
       { id: '975533', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 85121.46, loja: 'SIMOES_FILHO', data: '2026-08-07' },
@@ -52,24 +46,22 @@
       { id: '978129', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 7802.99, loja: 'SIMOES_FILHO', data: '2026-08-15' },
       { id: '978130', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 202.05, loja: 'SIMOES_FILHO', data: '2026-08-15' },
 
-      // PITUBA (JULHO / AGOSTO 2026)
-      { id: '848208', fornecedor: 'EUDORA', cnpj: '29250906147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 15400.00, loja: 'PITUBA', data: '2026-07-15' },
+      // PITUBA (V078)
+      { id: '848208', fornecedor: 'EUDORA', cnpj: '29250906147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 15400.00, loja: 'PITUBA', data: '2025-09-29' },
       { id: '000763', fornecedor: 'TRANSFERÊNCIA', cnpj: '29260711137051', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 2310.00, loja: 'PITUBA', data: '2026-07-13' },
       { id: '975319', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 8900.00, loja: 'PITUBA', data: '2026-08-07' },
       { id: '733875', fornecedor: 'ANTILHAS', cnpj: '35260802096748', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 12400.00, loja: 'PITUBA', data: '2026-08-04' },
       { id: '976102', fornecedor: 'QDB', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 4500.00, loja: 'PITUBA', data: '2026-08-10' },
-      { id: '978119', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 31200.00, loja: 'PITUBA', data: '2026-08-15' },
 
-      // CAJAZEIRAS (JULHO / AGOSTO 2026)
-      { id: '271323', fornecedor: 'ANTILHAS', cnpj: '35260602096748', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 1141.45, loja: 'CAJAZEIRAS', data: '2026-07-18' },
+      // CAJAZEIRAS (V070)
+      { id: '271323', fornecedor: 'ANTILHAS', cnpj: '35260602096748', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 1141.45, loja: 'CAJAZEIRAS', data: '2026-06-26' },
       { id: '975320', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 14200.00, loja: 'CAJAZEIRAS', data: '2026-08-07' },
-      { id: '978120', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 8600.00, loja: 'CAJAZEIRAS', data: '2026-08-15' },
 
-      // CALÇADA (JULHO / AGOSTO 2026)
-      { id: '971158', fornecedor: 'CALAMO', cnpj: '29260706147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 6781.07, loja: 'CALCADA', data: '2026-07-25' },
+      // CALÇADA (V074)
+      { id: '971158', fornecedor: 'CALAMO', cnpj: '29260706147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 6781.07, loja: 'CALCADA', data: '2026-07-24' },
       { id: '975321', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 9800.00, loja: 'CALCADA', data: '2026-08-07' },
 
-      // LAURO DE FREITAS (JULHO / AGOSTO 2026)
+      // LAURO DE FREITAS (V072)
       { id: '332110', fornecedor: 'BOTICÁRIO', cnpj: '11137051084690', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 24350.00, loja: 'LAURO_FREITAS', data: '2026-07-28' },
       { id: '978121', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 18900.00, loja: 'LAURO_FREITAS', data: '2026-08-15' }
     ];
@@ -79,9 +71,9 @@
       const [searchTerm, setSearchTerm] = useState('');
       const [statusFilter, setStatusFilter] = useState('Todos');
       
-      // RANGE PADRÃO PARA EXIBIR JULHO E AGOSTO DE 2026
-      const [startDate, setStartDate] = useState('2026-07-01');
-      const [endDate, setEndDate] = useState('2026-08-31');
+      // INTERVALO AMPLO BASEADO NA COLUNA EMISSÃO
+      const [startDate, setStartDate] = useState('2025-01-01');
+      const [endDate, setEndDate] = useState('2026-12-31');
       
       const [notes, setNotes] = useState(INITIAL_NOTES);
       const [isModalOpen, setIsModalOpen] = useState(false);
@@ -95,7 +87,7 @@
       const chartRef = useRef(null);
       const chartInstance = useRef(null);
 
-      // FILTRAGEM DOS DADOS
+      // FILTRAGEM BASEADA NO CAMPO EMISSÃO
       const filteredNotes = notes.filter(n => {
         const matchTab = n.loja === activeTab;
         const matchSearch = n.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -136,7 +128,7 @@
             maintainAspectRatio: false,
             plugins: {
               legend: { position: 'top' },
-              title: { display: true, text: 'Acompanhamento de NFs (Julho/Agosto 2026)', font: { size: 14, weight: 'bold' } }
+              title: { display: true, text: 'Acompanhamento das Notas Fiscais', font: { size: 14, weight: 'bold' } }
             },
             scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
           }
@@ -192,21 +184,23 @@
       return (
         <div className="min-h-screen flex flex-col bg-slate-50">
           
-          {/* CABEÇALHO COM A LOGOMARCA OFICIAL DO GRUPO BOTICÁRIO */}
-          <header className="bg-white border-b border-slate-200 px-6 py-3 flex justify-between items-center shadow-sm sticky top-0 z-30">
+          {/* CABEÇALHO COM LOGO OFICIAL GRUPO BOTICÁRIO */}
+          <header className="bg-white border-b border-slate-200 px-6 py-3.5 flex justify-between items-center shadow-sm sticky top-0 z-30">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
-                <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/2/23/Logo_Grupo_Boticario.svg" 
-                  alt="Grupo Boticário" 
-                  className="h-10 object-contain"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "https://raw.githubusercontent.com/github/explore/main/topics/javascript/javascript.png";
-                  }}
-                />
+                <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+                  <svg className="w-8 h-8" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 15C32 15 20 30 20 50C20 70 35 85 55 85C70 85 82 72 82 55C82 38 68 25 50 25C38 25 28 35 28 50C28 62 38 72 50 72C60 72 68 64 68 52" stroke="#82c341" strokeWidth="12" strokeLinecap="round"/>
+                    <path d="M50 25C65 25 78 38 78 55C78 70 65 82 50 82" stroke="#009cde" strokeWidth="10" strokeLinecap="round"/>
+                    <path d="M55 45C65 45 72 52 72 62C72 72 62 80 50 80" stroke="#f37021" strokeWidth="10" strokeLinecap="round"/>
+                  </svg>
+                  <div className="flex flex-col leading-tight">
+                    <span className="text-xs font-bold text-slate-700 tracking-tight">Grupo</span>
+                    <span className="text-sm font-extrabold text-slate-900 tracking-tight">Boticário</span>
+                  </div>
+                </div>
                 <span className="text-slate-300 text-2xl font-light">|</span>
-                <span className="font-semibold text-slate-800 text-sm tracking-tight">Recebimentos Bahia</span>
+                <span className="font-semibold text-slate-700 text-sm tracking-tight">Recebimentos Bahia</span>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -261,12 +255,12 @@
               </div>
             </div>
 
-            {/* GRÁFICO DA BAHIA */}
+            {/* GRÁFICO DA BAHIA COM TÍTULO AJUSTADO */}
             <div className="bg-white p-5 rounded-xl border shadow-sm">
               <div className="h-64 w-full"><canvas ref={chartRef}></canvas></div>
             </div>
 
-            {/* FILTROS DE PESQUISA E DATAS */}
+            {/* FILTROS DE PESQUISA E DATAS BASEADOS NO CAMPO EMISSÃO */}
             <div className="bg-white p-4 rounded-xl border shadow-sm space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
                 <div className="md:col-span-5 relative">
@@ -290,7 +284,7 @@
               </div>
             </div>
 
-            {/* TABELA DE DADOS DA BAHIA */}
+            {/* TABELA DE DADOS */}
             <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs text-slate-600">
@@ -316,7 +310,7 @@
                     ) : (
                       <tr>
                         <td colSpan="6" className="p-8 text-center text-slate-400">
-                          Nenhuma nota fiscal encontrada para o período selecionado.
+                          Nenhuma nota fiscal encontrada para a data de emissão selecionada.
                         </td>
                       </tr>
                     )}
