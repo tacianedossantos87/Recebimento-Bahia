@@ -28,26 +28,50 @@
       { id: 'LAURO_FREITAS', label: 'ER LAURO DE FREITAS (V072)' }
     ];
 
-    // LANÇAMENTOS REAIS DA PLANILHA EM AGOSTO DE 2026
+    // BASE REAL EXTRAÍDA DA PLANILHA (JULHO E AGOSTO DE 2026)
     const INITIAL_NOTES = [
-      { id: '975531', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 175.31, loja: 'SIMOES_FILHO', data: '2026-08-07' },
-      { id: '975532', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 18175.18, loja: 'SIMOES_FILHO', data: '2026-08-07' },
-      { id: '975533', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 85121.46, loja: 'SIMOES_FILHO', data: '2026-08-07' },
-      { id: '975327', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 569861.12, loja: 'SIMOES_FILHO', data: '2026-08-07' },
-      { id: '975328', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 18641.15, loja: 'SIMOES_FILHO', data: '2026-08-07' },
-      { id: '975329', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 4074.00, loja: 'SIMOES_FILHO', data: '2026-08-07' },
+      // SIMÕES FILHO (JULHO / AGOSTO 2026)
+      { id: '965292', fornecedor: 'BOTICÁRIO', cnpj: '29260706147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 1527.27, loja: 'SIMOES_FILHO', data: '2026-07-06' },
+      { id: '965293', fornecedor: 'BOTICÁRIO', cnpj: '29260706147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 12450.00, loja: 'SIMOES_FILHO', data: '2026-07-06' },
+      { id: '970645', fornecedor: 'CALAMO DISTRIBUIDORA', cnpj: '29260706147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 9.44, loja: 'SIMOES_FILHO', data: '2026-07-21' },
+      { id: '971157', fornecedor: 'CALAMO DISTRIBUIDORA', cnpj: '29260706147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 6781.07, loja: 'SIMOES_FILHO', data: '2026-07-24' },
+      { id: '973497', fornecedor: 'QDB', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 8088.46, loja: 'SIMOES_FILHO', data: '2026-08-01' },
+      { id: '975530', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 10499.67, loja: 'SIMOES_FILHO', data: '2026-08-07' },
+      { id: '975531', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 175.31, loja: 'SIMOES_FILHO', data: '2026-08-07' },
+      { id: '975532', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 18175.18, loja: 'SIMOES_FILHO', data: '2026-08-07' },
+      { id: '975533', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 85121.46, loja: 'SIMOES_FILHO', data: '2026-08-07' },
+      { id: '975327', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 569861.12, loja: 'SIMOES_FILHO', data: '2026-08-07' },
+      { id: '975328', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 18641.15, loja: 'SIMOES_FILHO', data: '2026-08-07' },
+      { id: '975329', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 4074.00, loja: 'SIMOES_FILHO', data: '2026-08-07' },
       { id: '733802', fornecedor: 'ANTILHAS', cnpj: '35260802096748', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 37309.20, loja: 'SIMOES_FILHO', data: '2026-08-04' },
-      { id: '976123', fornecedor: 'QDB', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 11686.97, loja: 'SIMOES_FILHO', data: '2026-08-10' },
-      { id: '978106', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 2120.25, loja: 'SIMOES_FILHO', data: '2026-08-15' },
-      { id: '978105', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 48760.28, loja: 'SIMOES_FILHO', data: '2026-08-15' },
-      { id: '978127', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 1079751.16, loja: 'SIMOES_FILHO', data: '2026-08-15' },
-      { id: '978128', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 33835.65, loja: 'SIMOES_FILHO', data: '2026-08-15' },
-      { id: '978129', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 7802.99, loja: 'SIMOES_FILHO', data: '2026-08-15' },
-      { id: '978130', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 202.05, loja: 'SIMOES_FILHO', data: '2026-08-15' },
-      { id: '848208', fornecedor: 'EUDORA', cnpj: '29250906147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 15000.00, loja: 'PITUBA', data: '2026-08-01' },
-      { id: '271323', fornecedor: 'ANTILHAS', cnpj: '35260602096748', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 1141.45, loja: 'CAJAZEIRAS', data: '2026-08-10' },
-      { id: '971157', fornecedor: 'CALAMO', cnpj: '29260706147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 6781.07, loja: 'CALCADA', data: '2026-08-12' },
-      { id: '332110', fornecedor: 'BOTICÁRIO', cnpj: '11137051084690', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 24350.00, loja: 'LAURO_FREITAS', data: '2026-08-18' }
+      { id: '976123', fornecedor: 'QDB', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 11686.97, loja: 'SIMOES_FILHO', data: '2026-08-10' },
+      { id: '978106', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 2120.25, loja: 'SIMOES_FILHO', data: '2026-08-15' },
+      { id: '978105', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 48760.28, loja: 'SIMOES_FILHO', data: '2026-08-15' },
+      { id: '978127', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 1079751.16, loja: 'SIMOES_FILHO', data: '2026-08-15' },
+      { id: '978128', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 33835.65, loja: 'SIMOES_FILHO', data: '2026-08-15' },
+      { id: '978129', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 7802.99, loja: 'SIMOES_FILHO', data: '2026-08-15' },
+      { id: '978130', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'DENTRO DO PRAZO', integrado: true, valor: 202.05, loja: 'SIMOES_FILHO', data: '2026-08-15' },
+
+      // PITUBA (JULHO / AGOSTO 2026)
+      { id: '848208', fornecedor: 'EUDORA', cnpj: '29250906147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 15400.00, loja: 'PITUBA', data: '2026-07-15' },
+      { id: '000763', fornecedor: 'TRANSFERÊNCIA', cnpj: '29260711137051', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 2310.00, loja: 'PITUBA', data: '2026-07-13' },
+      { id: '975319', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 8900.00, loja: 'PITUBA', data: '2026-08-07' },
+      { id: '733875', fornecedor: 'ANTILHAS', cnpj: '35260802096748', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 12400.00, loja: 'PITUBA', data: '2026-08-04' },
+      { id: '976102', fornecedor: 'QDB', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 4500.00, loja: 'PITUBA', data: '2026-08-10' },
+      { id: '978119', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 31200.00, loja: 'PITUBA', data: '2026-08-15' },
+
+      // CAJAZEIRAS (JULHO / AGOSTO 2026)
+      { id: '271323', fornecedor: 'ANTILHAS', cnpj: '35260602096748', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 1141.45, loja: 'CAJAZEIRAS', data: '2026-07-18' },
+      { id: '975320', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 14200.00, loja: 'CAJAZEIRAS', data: '2026-08-07' },
+      { id: '978120', fornecedor: 'EUDORA', cnpj: '29260806147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 8600.00, loja: 'CAJAZEIRAS', data: '2026-08-15' },
+
+      // CALÇADA (JULHO / AGOSTO 2026)
+      { id: '971158', fornecedor: 'CALAMO', cnpj: '29260706147451', tipo: 'Entrada', status: 'FORA DO PRAZO', integrado: false, valor: 6781.07, loja: 'CALCADA', data: '2026-07-25' },
+      { id: '975321', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 9800.00, loja: 'CALCADA', data: '2026-08-07' },
+
+      // LAURO DE FREITAS (JULHO / AGOSTO 2026)
+      { id: '332110', fornecedor: 'BOTICÁRIO', cnpj: '11137051084690', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 24350.00, loja: 'LAURO_FREITAS', data: '2026-07-28' },
+      { id: '978121', fornecedor: 'BOTICÁRIO', cnpj: '29260806147451', tipo: 'Entrada', status: 'NO PRAZO', integrado: true, valor: 18900.00, loja: 'LAURO_FREITAS', data: '2026-08-15' }
     ];
 
     function App() {
@@ -55,8 +79,8 @@
       const [searchTerm, setSearchTerm] = useState('');
       const [statusFilter, setStatusFilter] = useState('Todos');
       
-      // PERÍODO DE DATA PADRÃO AJUSTADO PARA AGOSTO DE 2026
-      const [startDate, setStartDate] = useState('2026-08-01');
+      // RANGE PADRÃO PARA EXIBIR JULHO E AGOSTO DE 2026
+      const [startDate, setStartDate] = useState('2026-07-01');
       const [endDate, setEndDate] = useState('2026-08-31');
       
       const [notes, setNotes] = useState(INITIAL_NOTES);
@@ -64,13 +88,14 @@
       const [isAnalyzing, setIsAnalyzing] = useState(false);
       const [aiChatOpen, setAiChatOpen] = useState(false);
       const [chatMessages, setChatMessages] = useState([
-        { sender: 'gemini', text: 'Olá! Sou o Gemini, assistente corporativo Boticário. Como posso ajudar com os recebimentos de Agosto?' }
+        { sender: 'gemini', text: 'Olá! Sou o Gemini, assistente corporativo Boticário. Como posso ajudar com o recebimento das notas nas unidades da Bahia?' }
       ]);
       const [chatInput, setChatInput] = useState('');
 
       const chartRef = useRef(null);
       const chartInstance = useRef(null);
 
+      // FILTRAGEM DOS DADOS
       const filteredNotes = notes.filter(n => {
         const matchTab = n.loja === activeTab;
         const matchSearch = n.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -111,7 +136,7 @@
             maintainAspectRatio: false,
             plugins: {
               legend: { position: 'top' },
-              title: { display: true, text: 'Acompanhamento de NFs de Agosto por Unidade (Bahia)', font: { size: 14, weight: 'bold' } }
+              title: { display: true, text: 'Acompanhamento de NFs (Julho/Agosto 2026)', font: { size: 14, weight: 'bold' } }
             },
             scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
           }
@@ -146,7 +171,7 @@
         setChatMessages(newMsgs);
         setChatInput('');
         setTimeout(() => {
-          setChatMessages([...newMsgs, { sender: 'gemini', text: `Analisando lançamentos de Agosto... Encontrei ${totalNotas} notas na aba selecionada.` }]);
+          setChatMessages([...newMsgs, { sender: 'gemini', text: `Analisando a base do Grupo Boticário... Encontrei ${totalNotas} notas na aba selecionada.` }]);
         }, 1000);
       };
 
@@ -166,18 +191,27 @@
 
       return (
         <div className="min-h-screen flex flex-col bg-slate-50">
-          <header className="bg-white border-b border-slate-200 px-6 py-3.5 flex justify-between items-center shadow-sm sticky top-0 z-30">
-            <div className="flex items-center gap-2">
-              <div className="bg-[#004a32] text-white font-bold px-3 py-1.5 rounded-lg text-sm flex items-center gap-1.5 shadow-sm">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#82c341] inline-block"></span>
-                BOTICÁRIO
+          
+          {/* CABEÇALHO COM A LOGOMARCA OFICIAL DO GRUPO BOTICÁRIO */}
+          <header className="bg-white border-b border-slate-200 px-6 py-3 flex justify-between items-center shadow-sm sticky top-0 z-30">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/2/23/Logo_Grupo_Boticario.svg" 
+                  alt="Grupo Boticário" 
+                  className="h-10 object-contain"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://raw.githubusercontent.com/github/explore/main/topics/javascript/javascript.png";
+                  }}
+                />
+                <span className="text-slate-300 text-2xl font-light">|</span>
+                <span className="font-semibold text-slate-800 text-sm tracking-tight">Recebimentos Bahia</span>
               </div>
-              <span className="text-slate-300 text-xl">|</span>
-              <span className="font-semibold text-slate-700 text-sm">Recebimentos Bahia</span>
             </div>
             <div className="flex items-center gap-4">
-              <span className="hidden sm:inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs px-2.5 py-1 rounded-full font-medium border border-emerald-200">
-                <i data-lucide="shield-check" className="w-3.5 h-3.5"></i> Acesso Restrito a Funcionários
+              <span className="hidden sm:inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs px-3 py-1 rounded-full font-medium border border-emerald-200">
+                <i data-lucide="shield-check" className="w-4 h-4"></i> Acesso Restrito a Funcionários
               </span>
             </div>
           </header>
@@ -188,7 +222,7 @@
                 <h1 className="text-2xl font-bold text-slate-900">Notas Fiscais</h1>
                 <p className="text-xs md:text-sm text-slate-500">Gerencie, consulte e acompanhe suas NF-e por loja</p>
               </div>
-              <button onClick={() => setIsModalOpen(true)} className="bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm px-4 py-2.5 rounded-lg flex items-center gap-2 shadow">
+              <button onClick={() => setIsModalOpen(true)} className="bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm px-4 py-2.5 rounded-lg flex items-center gap-2 shadow transition">
                 <i data-lucide="plus" className="w-4 h-4"></i> Nova Nota
               </button>
             </div>
@@ -199,7 +233,7 @@
                 const count = notes.filter(n => n.loja === s.id && (!startDate || n.data >= startDate) && (!endDate || n.data <= endDate)).length;
                 const isActive = activeTab === s.id;
                 return (
-                  <button key={s.id} onClick={() => setActiveTab(s.id)} className={`px-4 py-2 text-xs font-semibold rounded-t-lg flex items-center gap-2 border-b-2 whitespace-nowrap ${isActive ? 'border-slate-900 text-slate-900 bg-white shadow-sm' : 'border-transparent text-slate-500 hover:bg-slate-100'}`}>
+                  <button key={s.id} onClick={() => setActiveTab(s.id)} className={`px-4 py-2 text-xs font-semibold rounded-t-lg flex items-center gap-2 border-b-2 whitespace-nowrap transition ${isActive ? 'border-slate-900 text-slate-900 bg-white shadow-sm' : 'border-transparent text-slate-500 hover:bg-slate-100'}`}>
                     <span>{s.label}</span>
                     <span className={`px-2 py-0.5 rounded-full text-[10px] ${isActive ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-600'}`}>{count}</span>
                   </button>
@@ -227,12 +261,12 @@
               </div>
             </div>
 
-            {/* GRÁFICO */}
+            {/* GRÁFICO DA BAHIA */}
             <div className="bg-white p-5 rounded-xl border shadow-sm">
               <div className="h-64 w-full"><canvas ref={chartRef}></canvas></div>
             </div>
 
-            {/* SEÇÃO DE FILTROS AJUSTADA PARA AGOSTO DE 2026 */}
+            {/* FILTROS DE PESQUISA E DATAS */}
             <div className="bg-white p-4 rounded-xl border shadow-sm space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
                 <div className="md:col-span-5 relative">
@@ -248,7 +282,7 @@
                 <div className="md:col-span-3">
                   <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="w-full py-2 px-3 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 bg-white">
                     <option value="Todos">Todos os status</option>
-                    <option value="NO PRAZO">NO PRAZO</option>
+                    <option value="NO PRAZO">NO PRAZO / DENTRO DO PRAZO</option>
                     <option value="FORA DO PRAZO">FORA DO PRAZO</option>
                     <option value="PENDENTE INTEGRACAO">PENDENTE INTEGRACAO</option>
                   </select>
@@ -256,7 +290,7 @@
               </div>
             </div>
 
-            {/* TABELA DE DADOS DE AGOSTO */}
+            {/* TABELA DE DADOS DA BAHIA */}
             <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs text-slate-600">
@@ -292,7 +326,7 @@
             </div>
           </main>
 
-          {/* CHATBOT GEMINI */}
+          {/* CHATBOT GEMINI INTEGRADO */}
           <div className="fixed bottom-5 right-5 z-40">
             {aiChatOpen ? (
               <div className="bg-white rounded-2xl shadow-2xl border w-80 sm:w-96 flex flex-col h-96 overflow-hidden">
