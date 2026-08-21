@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recebimentos Bahia - Grupo Boticário</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const STORES = [
+      { id: 'HUB', label: 'HUB' },
+      { id: 'SIMOES_FILHO', label: 'ER SIMÕES FILHO' },
+      { id: 'PITUBA', label: 'ER PITUBA' },
+      { id: 'CAJAZEIRAS', label: 'ER CAJAZEIRAS' },
+      { id: 'CALCADA', label: 'ER CALÇADA' },
+      { id: 'LAURO_FREITAS', label: 'ER LAURO DE FREITAS' }
+    ];
+
+    const INITIAL_NOTES = [
+      { id: '000123456/1', fornecedor: 'Fornecedor ABC Distribuidora Ltda', cnpj: '02.096.748/0002-46', tipo: 'Entrada', status: 'Autorizada', integrado: true, valor: 15000.00, loja: 'PITUBA', data: '2026-06-15' },
+      { id: '000123457/1', fornecedor: 'Natura Cosméticos S/A', cnpj: '12.345.678/0001-90', tipo: 'Entrada', status: 'Autorizada', integrado: true, valor: 8450.50, loja: 'SIMOES_FILHO', data: '2026-06-16' },
+      { id: '000962296/1', fornecedor: 'Calamo Distribuidora de Produtos', cnpj: '06.147.451/0009-90', tipo: 'Entrada', status: 'Pendente', integrado: false, valor: 195.32, loja: 'SIMOES_FILHO', data: '2026-06-16' },
+      { id: '000970645/1', fornecedor: 'Calamo Distribuidora de Produtos', cnpj: '06.147.451/0009-90', tipo: 'Entrada', status: 'Pendente', integrado: false, valor: 9.44, loja: 'CALCADA', data: '2026-06-17' },
+      { id: '000271323/2', fornecedor: 'Antilhas Gráfica e Embalagens', cnpj: '02.096.748/0002-46', tipo: 'Entrada', status: 'Autorizada', integrado: true, valor: 1141.45, loja: 'CAJAZEIRAS', data: '2026-06-17' },
+      { id: '000332110/1', fornecedor: 'Boticário Logística Nordeste', cnpj: '11.137.051/0846-90', tipo: 'Entrada', status: 'Autorizada', integrado: true, valor: 24350.00, loja: 'LAURO_FREITAS', data: '2026-06-18' }
+    ];
+
+    function App() {
+      const [activeTab, setActiveTab] = useState('HUB');
+      const [searchTerm, setSearchTerm] = useState('');
+      const [statusFilter, setStatusFilter] = useState('Todos');
+      const [startDate, setStartDate] = useState('2026-06-15');
+      const [endDate, setEndDate] = useState('2026-06-18');
+      const [notes, setNotes] = useState(INITIAL_NOTES);
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [isAnalyzing, setIsAnalyzing] = useState(false);
+      const [aiChatOpen, setAiChatOpen] = useState(false);
+      const [chatMessages, setChatMessages] = useState([
+        { sender: 'gemini', text: 'Olá! Sou o Gemini, assistente corporativo Boticário. Como posso ajudar com o recebimento das notas nas lojas da Bahia?' }
+      ]);
+      const [chatInput, setChatInput] = useState('');
+
+      const chartRef = useRef(null);
+      const chartInstance = useRef(null);
+
+      const filteredNotes = notes.filter(n => {
+        const matchTab = activeTab === 'HUB' ? true : n.loja === activeTab;
+        const matchSearch = n.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                            n.fornecedor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            n.cnpj.includes(searchTerm);
+        const matchStatus = statusFilter === 'Todos' ? true : n.status === statusFilter;
+        const matchDate = (!startDate || n.data >= startDate) && (!endDate || n.data <= endDate);
+        return matchTab && matchSearch && matchStatus && matchDate;
+      });
+
+      const totalNotas = filteredNotes.length;
+      const notasRecebidas = filteredNotes.filter(n => n.status === 'Autorizada').length;
+      const pendentesIntegracao = filteredNotes.filter(n => !n.integrado).length;
+      const notasIntegradasCount = filteredNotes.filter(n => n.integrado).length;
+
+      useEffect(() => {
+        if (!chartRef.current) return;
+        if (chartInstance.current) chartInstance.current.destroy();
+
+        const ctx = chartRef.current.getContext('2d');
+        const labels = ['SIMÕES FILHO', 'PITUBA', 'CAJAZEIRAS', 'CALÇADA', 'LAURO DE FREITAS'];
+        const storeKeys = ['SIMOES_FILHO', 'PITUBA', 'CAJAZEIRAS', 'CALCADA', 'LAURO_FREITAS'];
+
+        const integradasData = storeKeys.map(k => notes.filter(n => n.loja === k && n.integrado && (!startDate || n.data >= startDate) && (!endDate || n.data <= endDate)).length);
+        const pendentesData = storeKeys.map(k => notes.filter(n => n.loja === k && !n.integrado && (!startDate || n.data >= startDate) && (!endDate || n.data <= endDate)).length);
+
+        chartInstance.current = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Notas Integradas', data: integradasData, backgroundColor: '#10b981', borderRadius: 6 },
+              { label: 'Pendentes de Integração', data: pendentesData, backgroundColor: '#ef4444', borderRadius: 6 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top' },
+              title: { display: true, text: 'Status de Integração de NFs por Unidade (Bahia)', font: { size: 14, weight: 'bold' } }
+            },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+          }
+        });
+      }, [notes, startDate, endDate, activeTab]);
+
+      useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
+
+      const handleSimulateAiUpload = () => {
+        setIsAnalyzing(true);
+        setTimeout(() => {
+          const newNote = {
+            id: `000${Math.floor(100000 + Math.random() * 900000)}/1`,
+            fornecedor: 'Fornecedor Exemplo Bahia Ltda',
+            cnpj: '05.112.334/0001-88',
+            tipo: 'Entrada',
+            status: 'Autorizada',
+            integrado: true,
+            valor: 12500.00,
+            loja: activeTab === 'HUB' ? 'SIMOES_FILHO' : activeTab,
+            data: new Date().toISOString().split('T')[0]
+          };
+          setNotes([newNote, ...notes]);
+          setIsAnalyzing(false);
+          setIsModalOpen(false);
+        }, 1800);
+      };
+
+      const handleSendMessage = () => {
+        if (!chatInput.trim()) return;
+        const newMsgs = [...chatMessages, { sender: 'user', text: chatInput }];
+        setChatMessages(newMsgs);
+        setChatInput('');
+        setTimeout(() => {
+          setChatMessages([...newMsgs, { sender: 'gemini', text: `Analisando base de dados do Boticário... Encontrei ${totalNotas} notas cadastradas no período.` }]);
+        }, 1000);
+      };
+
+      return (
+        <div className="min-h-screen flex flex-col bg-slate-50">
+          <header className="bg-white border-b border-slate-200 px-6 py-3.5 flex justify-between items-center shadow-sm sticky top-0 z-30">
+            <div className="flex items-center gap-2">
+              <div className="bg-[#004a32] text-white font-bold px-3 py-1.5 rounded-lg text-sm flex items-center gap-1.5 shadow-sm">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#82c341] inline-block"></span>
+                BOTICÁRIO
+              </div>
+              <span className="text-slate-300 text-xl">|</span>
+              <span className="font-semibold text-slate-700 text-sm">Recebimentos Bahia</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="hidden sm:inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs px-2.5 py-1 rounded-full font-medium border border-emerald-200">
+                <i data-lucide="shield-check" className="w-3.5 h-3.5"></i> Acesso Restrito a Funcionários
+              </span>
+            </div>
+          </header>
+
+          <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-2xl font-bold text-slate-900">Notas Fiscais</h1>
+                <p className="text-xs md:text-sm text-slate-500">Gerencie, consulte e acompanhe suas NF-e por loja</p>
+              </div>
+              <button onClick={() => setIsModalOpen(true)} className="bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm px-4 py-2.5 rounded-lg flex items-center gap-2 shadow">
+                <i data-lucide="plus" className="w-4 h-4"></i> Nova Nota
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-200">
+              {STORES.map((s) => {
+                const count = notes.filter(n => s.id === 'HUB' ? true : n.loja === s.id).length;
+                const isActive = activeTab === s.id;
+                return (
+                  <button key={s.id} onClick={() => setActiveTab(s.id)} className={`px-4 py-2 text-xs font-semibold rounded-t-lg flex items-center gap-2 border-b-2 whitespace-nowrap ${isActive ? 'border-slate-900 text-slate-900 bg-white shadow-sm' : 'border-transparent text-slate-500 hover:bg-slate-100'}`}>
+                    <span>{s.label}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] ${isActive ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-600'}`}>{count}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-white p-4 rounded-xl border shadow-sm flex items-center justify-between">
+                <div><p className="text-[11px] font-bold uppercase text-slate-400">Total de Notas</p><p className="text-2xl font-extrabold text-slate-800 mt-1">{totalNotas}</p></div>
+                <div className="p-2.5 bg-slate-100 text-slate-600 rounded-lg"><i data-lucide="file-text" className="w-5 h-5"></i></div>
+              </div>
+              <div className="bg-white p-4 rounded-xl border shadow-sm flex items-center justify-between">
+                <div><p className="text-[11px] font-bold uppercase text-slate-400">Notas Recebidas</p><p className="text-2xl font-extrabold text-slate-800 mt-1">{notasRecebidas}</p></div>
+                <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="check-circle-2" className="w-5 h-5"></i></div>
+              </div>
+              <div className="bg-white p-4 rounded-xl border shadow-sm flex items-center justify-between">
+                <div><p className="text-[11px] font-bold uppercase text-slate-400">Pendentes de Integração</p><p className="text-2xl font-extrabold text-slate-800 mt-1">{pendentesIntegracao}</p></div>
+                <div className="p-2.5 bg-red-50 text-red-500 rounded-lg"><i data-lucide="alert-circle" className="w-5 h-5"></i></div>
+              </div>
+              <div className="bg-white p-4 rounded-xl border shadow-sm flex items-center justify-between">
+                <div><p className="text-[11px] font-bold uppercase text-slate-400">Notas Integradas</p><p className="text-2xl font-extrabold text-slate-800 mt-1">{notasIntegradasCount}</p></div>
+                <div className="p-2.5 bg-blue-50 text-blue-600 rounded-lg"><i data-lucide="clock" className="w-5 h-5"></i></div>
+              </div>
+            </div>
+
+            <div className="bg-white p-5 rounded-xl border shadow-sm">
+              <div className="h-64 w-full"><canvas ref={chartRef}></canvas></div>
+            </div>
+
+            <div className="bg-white p-4 rounded-xl border shadow-sm space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
+                <div className="md:col-span-5 relative">
+                  <i data-lucide="search" className="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+                  <input type="text" placeholder="Buscar por número, emitente, CNPJ..." className="w-full pl-9 pr-3 py-2 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 bg-slate-50" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                </div>
+                <div className="md:col-span-4 flex items-center gap-2 bg-emerald-50/60 border border-emerald-200 px-3 py-1.5 rounded-full text-xs text-emerald-900">
+                  <i data-lucide="calendar" className="w-4 h-4 text-emerald-700"></i>
+                  <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="bg-transparent text-xs text-emerald-800 focus:outline-none" />
+                  <span className="text-emerald-500">—</span>
+                  <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="bg-transparent text-xs text-emerald-800 focus:outline-none" />
+                </div>
+                <div className="md:col-span-3">
+                  <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="w-full py-2 px-3 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 bg-white">
+                    <option value="Todos">Todos os status</option>
+                    <option value="Autorizada">Autorizada</option>
+                    <option value="Pendente">Pendente</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs text-slate-600">
+                  <thead className="bg-slate-50 border-b text-slate-700 font-semibold uppercase">
+                    <tr><th className="p-4">Número/Série</th><th className="p-4">Tipo</th><th className="p-4">Status</th><th className="p-4">Data Emissão</th><th className="p-4">Valor Total</th><th className="p-4 text-center">Ações</th></tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {filteredNotes.map((note) => (
+                      <tr key={note.id} className="hover:bg-slate-50 transition">
+                        <td className="p-4"><div className="font-bold text-slate-900">{note.id}</div><div className="text-[11px] text-slate-400">{note.fornecedor}</div></td>
+                        <td className="p-4"><span className="bg-slate-100 px-2 py-0.5 rounded text-[11px] border">{note.tipo}</span></td>
+                        <td className="p-4"><span className={`px-2.5 py-1 rounded text-[11px] font-semibold ${note.status === 'Autorizada' ? 'bg-slate-900 text-white' : 'bg-amber-100 text-amber-800'}`}>{note.status}</span></td>
+                        <td className="p-4 font-medium text-slate-700">{note.data.split('-').reverse().join('/')}</td>
+                        <td className="p-4 font-bold text-slate-900">R$ {note.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                        <td className="p-4 text-center"><div className="flex justify-center gap-3 text-slate-400"><i data-lucide="eye" className="w-4 h-4 cursor-pointer hover:text-slate-800"></i><i data-lucide="pencil" className="w-4 h-4 cursor-pointer hover:text-slate-800"></i><i data-lucide="trash-2" className="w-4 h-4 cursor-pointer hover:text-red-500"></i></div></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </main>
+
+          <div className="fixed bottom-5 right-5 z-40">
+            {aiChatOpen ? (
+              <div className="bg-white rounded-2xl shadow-2xl border w-80 sm:w-96 flex flex-col h-96 overflow-hidden">
+                <div className="bg-slate-900 text-white p-3.5 flex justify-between items-center">
+                  <div className="flex items-center gap-2"><div className="p-1 bg-emerald-500 rounded text-white"><i data-lucide="bot" className="w-4 h-4"></i></div><span className="font-bold text-xs">Gemini (Boticário)</span></div>
+                  <button onClick={() => setAiChatOpen(false)} className="text-slate-400 hover:text-white"><i data-lucide="x" className="w-4 h-4"></i></button>
+                </div>
+                <div className="flex-1 p-3 overflow-y-auto space-y-2 text-xs bg-slate-50">
+                  {chatMessages.map((msg, idx) => (
+                    <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[80%] p-2.5 rounded-xl ${msg.sender === 'user' ? 'bg-slate-900 text-white' : 'bg-white border text-slate-700 shadow-sm'}`}>{msg.text}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-2 border-t bg-white flex gap-1.5">
+                  <input type="text" placeholder="Pergunte sobre NFs..." className="flex-1 border rounded-lg px-3 py-1.5 text-xs focus:outline-none" value={chatInput} onChange={(e) => setChatInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()} />
+                  <button onClick={handleSendMessage} className="bg-slate-900 text-white p-2 rounded-lg"><i data-lucide="send" className="w-3.5 h-3.5"></i></button>
+                </div>
+              </div>
+            ) : (
+              <button onClick={() => setAiChatOpen(true)} className="bg-slate-900 text-white p-3.5 rounded-full shadow-lg flex items-center gap-2 hover:bg-slate-800"><i data-lucide="sparkles" className="w-5 h-5 text-emerald-400"></i><span className="text-xs font-semibold pr-1">Gemini AI</span></button>
+            )}
+          </div>
+
+          {isModalOpen && (
+            <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+              <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+                <div className="flex justify-between items-center border-b pb-3">
+                  <h3 className="font-bold text-slate-800 text-base">Nova Nota Fiscal (Gemini OCR)</h3>
+                  <button onClick={() => setIsModalOpen(false)} className="text-slate-400"><i data-lucide="x" className="w-5 h-5"></i></button>
+                </div>
+                <div className="border-2 border-dashed rounded-xl p-6 text-center space-y-3 bg-slate-50">
+                  <i data-lucide="upload-cloud" className="w-10 h-10 text-slate-400 mx-auto"></i>
+                  <p className="text-xs text-slate-600 font-semibold">Arraste seu arquivo PDF/XML da NF</p>
+                </div>
+                <div className="flex justify-end gap-2 pt-2">
+                  <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 border text-xs rounded-lg text-slate-600">Cancelar</button>
+                  <button onClick={handleSimulateAiUpload} disabled={isAnalyzing} className="px-4 py-2 bg-slate-900 text-white text-xs rounded-lg">{isAnalyzing ? 'Processando IA...' : 'Simular Leitura Gemini'}</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
+
+
+
+  
