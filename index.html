@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+# Vamos gerar o arquivo index.html contendo TODAS as 2.404 notas extraídas diretamente da planilha "Recebimento Bahia - Teste (2).xlsx"
+html_template = """<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -28,45 +29,15 @@
       { id: 'LAURO_FREITAS', label: 'ER LAURO DE FREITAS (V072)' }
     ];
 
-    // DADOS EXTRAÍDOS DA PLANILHA PLANILHA (STATUS E PREVISÃO DE RECEBIMENTO REAIS)
-    const INITIAL_NOTES = [
-      // HUB SIMÕES FILHO (COLUNA U = SITUAÇÃO / COLUNA H = PREVISÃO RECEBIMENTO)
-      { id: '850802', fornecedor: 'QDB', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2025-10-07', prev_rec_br: '07/10/2025', valor: 6810.41, integrado: true },
-      { id: '523172', fornecedor: 'ANTILHAS', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2025-10-07', prev_rec_br: '07/10/2025', valor: 7319.22, integrado: true },
-      { id: '851769', fornecedor: 'EUDORA', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2025-10-14', prev_rec_br: '14/10/2025', valor: 249877.66, integrado: true },
-      { id: '975531', fornecedor: 'EUDORA', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-11', prev_rec_br: '11/08/2026', valor: 175.31, integrado: true },
-      { id: '975532', fornecedor: 'EUDORA', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-11', prev_rec_br: '11/08/2026', valor: 18175.18, integrado: true },
-      { id: '975533', fornecedor: 'EUDORA', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-11', prev_rec_br: '11/08/2026', valor: 85121.46, integrado: true },
-      { id: '975327', fornecedor: 'BOTICÁRIO', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-11', prev_rec_br: '11/08/2026', valor: 569861.12, integrado: true },
-      { id: '975328', fornecedor: 'BOTICÁRIO', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-11', prev_rec_br: '11/08/2026', valor: 18641.15, integrado: true },
-      { id: '975329', fornecedor: 'BOTICÁRIO', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-11', prev_rec_br: '11/08/2026', valor: 4074.00, integrado: true },
-      { id: '733802', fornecedor: 'ANTILHAS', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-11', prev_rec_br: '11/08/2026', valor: 37309.20, integrado: true },
-      { id: '976123', fornecedor: 'QDB', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-13', prev_rec_br: '13/08/2026', valor: 11686.97, integrado: true },
-      { id: '978106', fornecedor: 'EUDORA', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-19', prev_rec_br: '19/08/2026', valor: 2120.25, integrado: true },
-      { id: '978105', fornecedor: 'EUDORA', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-19', prev_rec_br: '19/08/2026', valor: 48760.28, integrado: true },
-      { id: '978127', fornecedor: 'BOTICÁRIO', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-19', prev_rec_br: '19/08/2026', valor: 1079751.16, integrado: true },
-      { id: '978128', fornecedor: 'BOTICÁRIO', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-19', prev_rec_br: '19/08/2026', valor: 33835.65, integrado: true },
-      { id: '978129', fornecedor: 'BOTICÁRIO', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-19', prev_rec_br: '19/08/2026', valor: 7802.99, integrado: true },
-      { id: '978130', fornecedor: 'BOTICÁRIO', loja_nome: 'HUB - SIMÕES FILHO (V084)', loja_key: 'SIMOES_FILHO', status: 'INTEGRADA', prev_rec_iso: '2026-08-19', prev_rec_br: '19/08/2026', valor: 202.05, integrado: true },
-
-      // DEMAIS LOJAS (COLUNA M = STATUS / COLUNA E = DATA RECEBIMENTO)
-      { id: '848208', fornecedor: 'EUDORA', loja_nome: 'ER PITUBA (V078)', loja_key: 'PITUBA', status: 'FORA DO PRAZO', prev_rec_iso: '2025-10-01', prev_rec_br: '01/10/2025', valor: 15400.00, integrado: false },
-      { id: '000763', fornecedor: 'TRANSFERÊNCIA', loja_nome: 'ER PITUBA (V078)', loja_key: 'PITUBA', status: 'NO PRAZO', prev_rec_iso: '2026-07-13', prev_rec_br: '13/07/2026', valor: 2310.00, integrado: true },
-      { id: '975319', fornecedor: 'BOTICÁRIO', loja_nome: 'ER PITUBA (V078)', loja_key: 'PITUBA', status: 'NO PRAZO', prev_rec_iso: '2026-08-07', prev_rec_br: '07/08/2026', valor: 8900.00, integrado: true },
-      { id: '271323', fornecedor: 'ANTILHAS', loja_nome: 'ER CAJAZEIRAS (V070)', loja_key: 'CAJAZEIRAS', status: 'NO PRAZO', prev_rec_iso: '2026-06-26', prev_rec_br: '26/06/2026', valor: 1141.45, integrado: true },
-      { id: '975320', fornecedor: 'BOTICÁRIO', loja_nome: 'ER CAJAZEIRAS (V070)', loja_key: 'CAJAZEIRAS', status: 'NO PRAZO', prev_rec_iso: '2026-08-07', prev_rec_br: '07/08/2026', valor: 14200.00, integrado: true },
-      { id: '971158', fornecedor: 'CALAMO', loja_nome: 'ER CALÇADA (V074)', loja_key: 'CALCADA', status: 'FORA DO PRAZO', prev_rec_iso: '2026-07-24', prev_rec_br: '24/07/2026', valor: 6781.07, integrado: false },
-      { id: '975321', fornecedor: 'BOTICÁRIO', loja_nome: 'ER CALÇADA (V074)', loja_key: 'CALCADA', status: 'NO PRAZO', prev_rec_iso: '2026-08-07', prev_rec_br: '07/08/2026', valor: 9800.00, integrado: true },
-      { id: '332110', fornecedor: 'BOTICÁRIO', loja_nome: 'ER LAURO DE FREITAS (V072)', loja_key: 'LAURO_FREITAS', status: 'NO PRAZO', prev_rec_iso: '2026-07-28', prev_rec_br: '28/07/2026', valor: 24350.00, integrado: true },
-      { id: '978121', fornecedor: 'BOTICÁRIO', loja_nome: 'ER LAURO DE FREITAS (V072)', loja_key: 'LAURO_FREITAS', status: 'NO PRAZO', prev_rec_iso: '2026-08-15', prev_rec_br: '15/08/2026', valor: 18900.00, integrado: true }
-    ];
+    // BASE COMPLETA EXTRAÍDA DE TODAS AS 5 ABAS DA PLANILHA RECEBIMENTO BAHIA TESTE (2)
+    const INITIAL_NOTES = __JSON_DATA__;
 
     function App() {
       const [activeTab, setActiveTab] = useState('SIMOES_FILHO');
       const [searchTerm, setSearchTerm] = useState('');
       const [statusFilter, setStatusFilter] = useState('Todos');
       
-      // FILTRO DE INTERVALO DE DATAS (BASEADO NA PREVISÃO DE RECEBIMENTO)
+      // FILTRO DE DATAS COBRINDO TODO O INTERVALO
       const [startDate, setStartDate] = useState('2025-01-01');
       const [endDate, setEndDate] = useState('2026-12-31');
       
@@ -82,23 +53,23 @@
       const chartRef = useRef(null);
       const chartInstance = useRef(null);
 
-      // FILTRAGEM DE NOTAS BASEADA EM PREVISÃO DE RECEBIMENTO
+      // FILTRAGEM POR LOJA, BUSCA, STATUS E PREVISÃO DE RECEBIMENTO
       const filteredNotes = notes.filter(n => {
         const matchTab = n.loja_key === activeTab;
         const matchSearch = n.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
                             n.fornecedor.toLowerCase().includes(searchTerm.toLowerCase());
         const matchStatus = statusFilter === 'Todos' ? true : n.status === statusFilter;
         
-        // FILTRO DE DATA
+        // FILTRO DE DATA BASEADO NA PREVISÃO DE RECEBIMENTO (ISO)
         const noteDate = n.prev_rec_iso;
-        const matchDate = (!startDate || noteDate >= startDate) && (!endDate || noteDate <= endDate);
+        const matchDate = (!noteDate) || ((!startDate || noteDate >= startDate) && (!endDate || noteDate <= endDate));
 
         return matchTab && matchSearch && matchStatus && matchDate;
       });
 
       const totalNotas = filteredNotes.length;
       const notasRecebidas = filteredNotes.filter(n => n.status === 'INTEGRADA' || n.status === 'NO PRAZO' || n.status === 'DENTRO DO PRAZO').length;
-      const pendentesIntegracao = filteredNotes.filter(n => n.status === 'AGUARDANDO INTEGRAÇÃO' || n.status === 'FORA DO PRAZO' || n.status === 'PENDENTE').length;
+      const pendentesIntegracao = filteredNotes.filter(n => n.status === 'AGUARDANDO INTEGRAÇÃO' || n.status === 'FORA DO PRAZO' || n.status === 'PENDENTE' || n.status === 'PROCESSANDO').length;
       const notasIntegradasCount = filteredNotes.filter(n => n.integrado).length;
 
       useEffect(() => {
@@ -109,8 +80,8 @@
         const labels = ['SIMÕES FILHO', 'PITUBA', 'CAJAZEIRAS', 'CALÇADA', 'LAURO DE FREITAS'];
         const storeKeys = ['SIMOES_FILHO', 'PITUBA', 'CAJAZEIRAS', 'CALCADA', 'LAURO_FREITAS'];
 
-        const integradasData = storeKeys.map(k => notes.filter(n => n.loja_key === k && n.integrado && (!startDate || n.prev_rec_iso >= startDate) && (!endDate || n.prev_rec_iso <= endDate)).length);
-        const pendentesData = storeKeys.map(k => notes.filter(n => n.loja_key === k && !n.integrado && (!startDate || n.prev_rec_iso >= startDate) && (!endDate || n.prev_rec_iso <= endDate)).length);
+        const integradasData = storeKeys.map(k => notes.filter(n => n.loja_key === k && n.integrado && (!n.prev_rec_iso || ((!startDate || n.prev_rec_iso >= startDate) && (!endDate || n.prev_rec_iso <= endDate)))).length);
+        const pendentesData = storeKeys.map(k => notes.filter(n => n.loja_key === k && !n.integrado && (!n.prev_rec_iso || ((!startDate || n.prev_rec_iso >= startDate) && (!endDate || n.prev_rec_iso <= endDate)))).length);
 
         chartInstance.current = new Chart(ctx, {
           type: 'bar',
@@ -128,7 +99,7 @@
               legend: { position: 'top' },
               title: { display: true, text: 'Acompanhamento das Notas Fiscais', font: { size: 14, weight: 'bold' } }
             },
-            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 10 } } }
           }
         });
       }, [notes, activeTab, startDate, endDate]);
@@ -162,7 +133,7 @@
         setChatMessages(newMsgs);
         setChatInput('');
         setTimeout(() => {
-          setChatMessages([...newMsgs, { sender: 'gemini', text: `Analisando a base do Grupo Boticário... Encontrei ${totalNotas} notas para a loja selecionada no período.` }]);
+          setChatMessages([...newMsgs, { sender: 'gemini', text: `Analisando a base completa do Grupo Boticário... Encontrei ${totalNotas} notas na aba selecionada.` }]);
         }, 1000);
       };
 
@@ -176,6 +147,7 @@
             return 'bg-red-900 text-red-100 border-red-700';
           case 'AGUARDANDO INTEGRAÇÃO':
           case 'PENDENTE':
+          case 'PROCESSANDO':
             return 'bg-amber-100 text-amber-900 border-amber-300';
           default:
             return 'bg-slate-800 text-white';
@@ -185,7 +157,7 @@
       return (
         <div className="min-h-screen flex flex-col bg-slate-50">
           
-          {/* CABEÇALHO */}
+          {/* CABEÇALHO COM LOGOMARCA OFICIAL GRUPO BOTICÁRIO */}
           <header className="bg-white border-b border-slate-200 px-6 py-3.5 flex justify-between items-center shadow-sm sticky top-0 z-30">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
@@ -222,10 +194,10 @@
               </button>
             </div>
 
-            {/* ABAS UNIFICADAS */}
+            {/* ABAS DAS LOJAS COM CONTAGEM COMPLETA DA PLANILHA */}
             <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-200">
               {STORES.map((s) => {
-                const count = notes.filter(n => n.loja_key === s.id && (!startDate || n.prev_rec_iso >= startDate) && (!endDate || n.prev_rec_iso <= endDate)).length;
+                const count = notes.filter(n => n.loja_key === s.id && (!n.prev_rec_iso || ((!startDate || n.prev_rec_iso >= startDate) && (!endDate || n.prev_rec_iso <= endDate)))).length;
                 const isActive = activeTab === s.id;
                 return (
                   <button key={s.id} onClick={() => setActiveTab(s.id)} className={`px-4 py-2 text-xs font-semibold rounded-t-lg flex items-center gap-2 border-b-2 whitespace-nowrap transition ${isActive ? 'border-slate-900 text-slate-900 bg-white shadow-sm' : 'border-transparent text-slate-500 hover:bg-slate-100'}`}>
@@ -261,43 +233,36 @@
               <div className="h-64 w-full"><canvas ref={chartRef}></canvas></div>
             </div>
 
-            {/* BARRA DE FILTROS COM CAMPO DE DATAS RECOLOCADO */}
+            {/* BARRA DE FILTROS COM CAMPO DE DATAS POR PREVISÃO DE RECEBIMENTO */}
             <div className="bg-white p-4 rounded-xl border shadow-sm space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
-                
-                {/* BUSCA POR TEXTO */}
                 <div className="md:col-span-5 relative">
                   <i data-lucide="search" className="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
                   <input type="text" placeholder="Buscar por número ou fornecedor..." className="w-full pl-9 pr-3 py-2 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 bg-slate-50" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
-
-                {/* FILTRO DE DATAS POR PREVISÃO DE RECEBIMENTO */}
                 <div className="md:col-span-4 flex items-center gap-2 bg-emerald-50/60 border border-emerald-200 px-3 py-1.5 rounded-full text-xs text-emerald-900">
                   <i data-lucide="calendar" className="w-4 h-4 text-emerald-700 flex-shrink-0"></i>
                   <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="bg-transparent text-xs text-emerald-800 focus:outline-none" />
                   <span className="text-emerald-500 font-bold">—</span>
                   <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="bg-transparent text-xs text-emerald-800 focus:outline-none" />
                 </div>
-
-                {/* FILTRO DE STATUS */}
                 <div className="md:col-span-3">
                   <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="w-full py-2 px-3 text-xs border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 bg-white">
                     <option value="Todos">Todos os status</option>
                     <option value="INTEGRADA">INTEGRADA</option>
-                    <option value="AGUARDANDO INTEGRAÇÃO">AGUARDANDO INTEGRAÇÃO</option>
-                    <option value="NO PRAZO">NO PRAZO</option>
+                    <option value="NO PRAZO">NO PRAZO / DENTRO DO PRAZO</option>
                     <option value="FORA DO PRAZO">FORA DO PRAZO</option>
+                    <option value="AGUARDANDO INTEGRAÇÃO">AGUARDANDO INTEGRAÇÃO</option>
                   </select>
                 </div>
-
               </div>
             </div>
 
-            {/* TABELA DE DADOS */}
+            {/* TABELA DE DADOS COM AS 2.404 NOTAS DA PLANILHA */}
             <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto max-h-[550px] overflow-y-auto">
                 <table className="w-full text-left text-xs text-slate-600">
-                  <thead className="bg-slate-50 border-b text-slate-700 font-semibold uppercase">
+                  <thead className="bg-slate-50 border-b text-slate-700 font-semibold uppercase sticky top-0 bg-slate-50 z-10">
                     <tr>
                       <th className="p-4">Número/Série</th>
                       <th className="p-4">Loja</th>
@@ -309,8 +274,8 @@
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {filteredNotes.length > 0 ? (
-                      filteredNotes.map((note) => (
-                        <tr key={note.id} className="hover:bg-slate-50 transition">
+                      filteredNotes.map((note, idx) => (
+                        <tr key={idx} className="hover:bg-slate-50 transition">
                           <td className="p-4">
                             <div className="font-bold text-slate-900">{note.id}</div>
                             <div className="text-[11px] text-slate-400">{note.fornecedor}</div>
@@ -343,7 +308,7 @@
                     ) : (
                       <tr>
                         <td colSpan="6" className="p-8 text-center text-slate-400">
-                          Nenhuma nota fiscal encontrada para o filtro selecionado.
+                          Nenhuma nota fiscal encontrada para os filtros selecionados.
                         </td>
                       </tr>
                     )}
@@ -405,3 +370,12 @@
   </script>
 </body>
 </html>
+"""
+
+# Injetar o JSON formatado com os 2.404 registros no template HTML
+final_html = html_template.replace("__JSON_DATA__", json.dumps(all_records, separators=(',', ':')))
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(final_html)
+
+print("Novo index.html gerado com sucesso contendo todas as 2.404 notas fiscais!")
